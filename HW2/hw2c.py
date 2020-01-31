@@ -31,7 +31,7 @@ def main():
     print('c) The solution to the set of linear equations:\n') 
     for i in MyA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")
-    for i in range(len(solution)): print('{:.3f}'.format(solution[i]), end =" ") #Print out the solutions with only 3 points of precision
+    for i in range(len(solution)): print('{:.4f}'.format(solution[i]), end =" ") #Print out the solutions with only 4 points of precision
     
     #And once more:
     solution = GaussSeidel(anotherA, initialGuessB, 3) #Call GaussSeidel with args for our augmented matrix, initial guess, and number of iterations
@@ -39,6 +39,6 @@ def main():
     print('\n\n\nThe solution to the set of linear equations:\n')
     for i in anotherA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")
-    for i in range(len(solution)): print('{:.3f}'.format(solution[i]), end =" ") #Print out the solutions with only 3 points of precision
+    for i in range(len(solution)): print('{:.4f}'.format(solution[i]), end =" ") #Print out the solutions with only 4 points of precision
 
 main()

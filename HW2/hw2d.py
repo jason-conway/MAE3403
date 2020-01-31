@@ -2,18 +2,14 @@ from copy import *
 
 def GaussElim(Aaug):
     ans = [0 for i in range(len(Aaug))] #Create an empty array to hold the solutions to the set of linear equations
-    for i in range(1,len(Aaug)): #Loop for all rows after row 1 to begin reducing and eliminating elements in column 1
-        tmp = Aaug[i][0] / Aaug[0][0] #Calculate the multiplier used to eliminate the other elements. This equation only works for eliminating the first column
-        for j in range(len(Aaug[0])): Aaug[i][j] -= Aaug[0][j] * tmp #Run through all the columns in Aaug on row i and begin elimination by multiplying the element by the multiplier and subtracting the result from the original element
-    for i in range(2, len(Aaug)): #Loop for all rows after row 2 to begin reducing and elimination elements between column 2 and the length of the matrix
-        tmp = Aaug[i][i-(i-1)] / Aaug[i-(i-1)][i-(i-1)] #Calculate the multiplier used to eliminate the other elements. Unlike the above equation, this one works for any column from 2
-        for j in range(1, len(Aaug[0])): Aaug[i][j] -= Aaug[i-(i-1)][j] * tmp  #Loop through all the columns in i after column 2 (column one should be all zeros besides row 1) and begin elimination by multiplying the element by the multiplier and subtracting the result from the original element
-            
+    for i in range(len(Aaug)): #I use this index to keep track of the offset when calculating multipliers and eliminating elements
+        for j in range(i + 1, len(Aaug)): #Loop through all rows beginning with row 2 in order to begin reducing and elimination elements
+            tmp = Aaug[j][j - (j - i)] / Aaug[j - (j - i)][j - (j - i)] #Calculate the multiplier needed to eliminate the next non-zero element. Offsets from the primary for loop are used to keep track of how far right we've travelled
+            for k in range(i, len(Aaug[0])): Aaug[j][k] -= Aaug[j - (j - i)][k] * tmp  #Loop though all the columns starting with the left-most un-eliminated column and begin eliminate or reduce it by multiplying the element by the multiplier and subtracting the result from the original element
     for i in range(len(Aaug) - 1, -1, -1): #Loop backwards from the last row in Aaug to the first row to perform back substitution and solve for our independant variables
         tmpSum = 0 #Set / reset the temporary sum variable to 0 between rows
         for j in range(len(Aaug)): tmpSum += Aaug[i][j] * ans[j] #Loop through the columns in row i and calculate the sum to be subtracted from the "b" column in the matrix
-        ans[i] = (Aaug[i][len(Aaug)] - tmpSum) / Aaug[i][i] #Subtract the previously calculated sum and solve for the unknown variable 
-
+        ans[i] = (Aaug[i][len(Aaug)] - tmpSum) / Aaug[i][i] #Subtract the previously calculated sum and solve for the unknown variable and save it in an array to be returned after all completing back substitution
     return ans #Return the array of solutions
 
 

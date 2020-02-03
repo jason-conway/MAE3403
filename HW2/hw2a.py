@@ -1,4 +1,4 @@
-from math import cos
+from math import *
 
 def Simpson(fcn, a, b, npoints = 21):
     npoints += 1 if npoints % 2 == 0 else 0 #If npoints is even, add 1 to make it odd. This will also slightly increase accuracy. Nice

@@ -12,7 +12,6 @@ def GaussElim(Aaug):
         ans[i] = (Aaug[i][len(Aaug)] - tmpSum) / Aaug[i][i] #Subtract the previously calculated sum and solve for the unknown variable and save it in an array to be returned after all completing back substitution
     return ans #Return the array of solutions
 
-
 def main():
     MyA = [[4, -1, -1, 3],
            [-2, -3, 1, 9],
@@ -24,16 +23,16 @@ def main():
                 [0, 1, 4, 8, -2]]
 
     #Pretty-print the solutions
-    solution = GaussElim(deepcopy(MyA)) #Pass a copy of the desired matrix when we call GaussElim
+    solution = GaussElim(deepcopy(MyA)) #Pass a copy of the desired matrix when we call GaussElim to keep it intact
     print('c) The solution to the set of linear equations in the augmented matrix:')  
     for i in MyA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")
-    print(solution)
+    for i in range(len(solution)): print('{:.4f}'.format(solution[i]), end =" ") #Print out the solutions with only 4 points of precision
 
     solution = GaussElim(deepcopy(anotherA)) #Pass a copy of the desired matrix when we call GaussElim
     print('\n\n\nThe solution to the set of linear equations in the augmented matrix:') 
     for i in anotherA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")
-    print(solution)
+    for i in range(len(solution)): print('{:.4f}'.format(solution[i]), end =" ") #Print out the solutions with only 4 points of precision
     
 main()

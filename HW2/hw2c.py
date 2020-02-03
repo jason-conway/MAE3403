@@ -19,15 +19,13 @@ def main():
                 [0, 1, 4, 8, -2]]
     initialGuessB = [0, 0, 0, 0]
 
+    '''
+        I wanted to nicely display the matrix and corresponding solutions. Can't use numpy's functions to pretty-print
+        my matrices and solutions, so here is a quick and dirty method of displaying our inital augmented array and 
+        subsequent solution:
+    '''
+
     solution = GaussSeidel(MyA, initialGuessA, 22) #Call GaussSeidel with args for our augmented matrix, initial guess, and number of iterations
-
-    '''
-        I wanted to nicely display the matrix and corresponding solutions, which is a messy task without numpy...
-        Sure, I could just print(solution) but if this were somehow running on an embedded system and I started writing floats 
-        to stdout with 20 points of precision, I'd likely overflow a buffer or cause other issues-
-        So here is a quick and dirty method of displaying our inital augmented array and subsequent solution:
-    '''
-
     print('c) The solution to the set of linear equations:\n') 
     for i in MyA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")
@@ -35,7 +33,6 @@ def main():
     
     #And once more:
     solution = GaussSeidel(anotherA, initialGuessB, 3) #Call GaussSeidel with args for our augmented matrix, initial guess, and number of iterations
-
     print('\n\n\nThe solution to the set of linear equations:\n')
     for i in anotherA: print(*i) #Loop through the rows in the augmented matrix and print them nicely
     print('\nis: ', end = " ")

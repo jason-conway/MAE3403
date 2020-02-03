@@ -1,4 +1,4 @@
-from math import cos
+from math import *
 
 def Secant(fcn, x0, x1, maxiter=10, xtol=1e-5):
     for i in range(maxiter): #Iterate the entered number of times or default to 10

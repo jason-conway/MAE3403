@@ -3,8 +3,8 @@ from math import *
 def Secant(fcn, x0, x1, maxiter=10, xtol=1e-5):
     for i in range(maxiter): #Iterate the entered number of times or default to 10
         x = x1 - (fcn(x1) * (x1 - x0)) / (fcn(x1) - fcn(x0)) #Perform Secant method
-        x0, x1 = x1, x #Update x0 and x1 with new values calculated with Secant method
         if abs(x - x1) < xtol: return x #If we converge within the entered (or default) value during the loop, go ahead and return back the value we converged to
+        x0, x1 = x1, x #Update x0 and x1 with new values calculated with Secant method
     return x #Return the final calculated value
 
 def main():

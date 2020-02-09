@@ -15,32 +15,29 @@ def Secant(fcn, x0, x1, maxiter=10, xtol=1e-5):
         x0, x1 = x1, x #Update x0 and x1 with new values calculated with Secant method
     return x #Return the final calculated value
 
-def STO(thrust):
-    #The following calculates the needed values to find STO
-    Vstall = sqrt(56000 / (.5 * .002377 * 1000 *2.4))
-    Vto = Vstall * 1.2
-    A = 32.2 * (thrust / 56000)
-    B = (32.2 / 56000) * (.5 * .002377 * 1000 * .0279)
+def SigmaMax(z):
+    def x_lift(x): #Make function to be passed to Simpson. Equation comes from the problem statement
+        return x * (1.5 * cos(x / 320)) 
+    return (Simpson(x_lift, 0, 320) / z) #Estimate the integral of x_lift between 0 and 320 to solve for Mroot. Then divide by 320 to get the max bending stress and return the value
 
-    def S_TO(v): #Make a function to be passed to Simpson
-        return v / (A - (B * v**2))
-
-    return Simpson(S_TO, 0, Vto) #Pass the function to Simpsons to estimate the integral between 0 and Vto and return the value
-
-def ThrustNeededForTakeoff(distance):
-    def solveThrust(x): #Make a function to be passed to Secant
-        return STO(x) - distance
-    return Secant(solveThrust, 1000, 2000) #Pass the function and intial guesses of 1000 and 2000 feet to Secant in order to solve for the needed thrust and return the value
-
+def DesignTheSpar(DesignStress):
+    def solveModulus(z): #Make function to be passed to Secant
+        return SigmaMax(z) - DesignStress
     
+    return Secant(solveModulus, 1, 2) #Pass the function to Secant with initial guesses of 1 and 2 to estimate the value of z needed for the specified stress. Then return the value
+
+
 def main():
-    distance = STO(13000)
-    print('The take-off distance for an engine with 13,000 pounds of thrust is: {:.1f} feet.'.format(distance))
+    z = 3.5
+    stress = SigmaMax(z)
+    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, stress))
 
-    thrustNeeded = ThrustNeededForTakeoff(1500)
-    print('The thrust needed to take-off in a distance of 1,500 feet is {:.2f} pounds.'.format(thrustNeeded))
-
-    thrustNeeded = ThrustNeededForTakeoff(1000)
-    print('The thrust needed to take-off in a distance of 1,000 feet is {:.2f} pounds.'.format(thrustNeeded))
+    z = 1.5
+    stress = SigmaMax(z)
+    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, stress))
+    
+    designStress = 25000
+    sectionModulus = DesignTheSpar(designStress)
+    print('The section modulus required for a design stress of {:.2f} is {:.2f}'.format(designStress, sectionModulus))
 
 main()

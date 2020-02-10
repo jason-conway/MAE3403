@@ -13,7 +13,6 @@ def main():
                [4, 3, 2, 1],
                [1, 2, 3, 4]]
 
-    answer = MatrixTermProducts(matrix1, matrix2)
-    print(answer)
+    print(MatrixTermProducts(matrix1, matrix2))
 
 main()

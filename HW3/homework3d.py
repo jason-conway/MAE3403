@@ -11,9 +11,6 @@ def main():
     C = [1.5, 3, 4, 7, 3]
     D = [2, 4.2, 4, 6, 3]
 
-    ans = MagVectorDiff(A, B)
-    print('Magnitude of the vector difference is: {:.2f}'.format(ans))
-
-    ans = MagVectorDiff(C, D)
-    print('Magnitude of the vector difference is: {:.2f}'.format(ans))
+    print('Magnitude of the vector difference is: {:.2f}'.format(MagVectorDiff(A, B)))
+    print('Magnitude of the vector difference is: {:.2f}'.format(MagVectorDiff(C, D)))
 main()

@@ -9,10 +9,7 @@ def LookingForSum(thisarray, sumval):
 def main():
     thatarray = [3, 4, 2, -7, 5, 2, 1, -1]
 
-    val1 = LookingForSum(thatarray, -2)
-    print("val1 = ", val1)
-    
-    val2 = LookingForSum(thatarray, 8)
-    print("val2 = ", val2)
+    print("val1 = ", LookingForSum(thatarray, -2))
+    print("val2 = ", LookingForSum(thatarray, 8))
 
 main()

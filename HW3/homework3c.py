@@ -24,14 +24,12 @@ def STO(thrust):
 
     def S_TO(v): #Make a function to be passed to Simpson
         return v / (A - (B * v**2))
-
     return Simpson(S_TO, 0, Vto) #Pass the function to Simpsons to estimate the integral between 0 and Vto and return the value
 
 def ThrustNeededForTakeoff(distance):
     def solveThrust(x): #Make a function to be passed to Secant
         return STO(x) - distance
     return Secant(solveThrust, 1000, 2000) #Pass the function and intial guesses of 1000 and 2000 feet to Secant in order to solve for the needed thrust and return the value
-
     
 def main():
     distance = STO(13000)

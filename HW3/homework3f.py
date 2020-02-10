@@ -23,21 +23,16 @@ def SigmaMax(z):
 def DesignTheSpar(DesignStress):
     def solveModulus(z): #Make function to be passed to Secant
         return SigmaMax(z) - DesignStress
-    
     return Secant(solveModulus, 1, 2) #Pass the function to Secant with initial guesses of 1 and 2 to estimate the value of z needed for the specified stress. Then return the value
-
 
 def main():
     z = 3.5
-    stress = SigmaMax(z)
-    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, stress))
+    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, SigmaMax(z)))
 
     z = 1.5
-    stress = SigmaMax(z)
-    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, stress))
+    print('The stress value for a section modulus of {:.1f} is {:.1f}'.format(z, SigmaMax(z)))
     
     designStress = 25000
-    sectionModulus = DesignTheSpar(designStress)
-    print('The section modulus required for a design stress of {:.2f} is {:.2f}'.format(designStress, sectionModulus))
+    print('The section modulus required for a design stress of {:.2f} is {:.2f}'.format(designStress, DesignTheSpar(designStress)))
 
 main()

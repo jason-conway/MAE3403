@@ -2,7 +2,7 @@ from math import *
 
 def Simpson(fcn, a, b, npoints = 21):
     npoints += 1 if npoints % 2 == 0 else 0 #If npoints is even, add 1 to make it odd. This will also slightly increase accuracy. Nice
-    h = (b - a) / npoints #Calculate the step-size to use
+    h = (b - a) / (npoints - 1) #Calculate the step-size to use
     est = fcn(a) + fcn(b) #There aren't coefficients of 2 or 4 for f(a) and f(b), let's go ahead and account for those
     for i in range(1, npoints, 2): est += 4 * fcn(a + (h * i)) #Add coefficient of 4 for every other term between f(a) and f(b)
     for i in range(2, npoints - 1, 2): est += 2 * fcn(a + (h * i)) #Add coefficient of 2 for every other term between f(a) and f(b)  

@@ -1,5 +1,3 @@
-from math import *
-
 def Simpson(fcn, a, b, npoints = 21):
     npoints += 1 if npoints % 2 == 0 else 0 #If npoints is even, add 1 to make it odd. This will also slightly increase accuracy. Nice
     h = (b - a) / (npoints - 1) #Calculate the step-size to use
@@ -14,10 +12,10 @@ def Secant(fcn, x0, x1, maxiter=10, xtol=1e-5):
         if abs(x - x1) < xtol: return x #If we converge within the entered (or default) value during the loop, go ahead and return back the value we converged to
         x0, x1 = x1, x #Update x0 and x1 with new values calculated with Secant method
     return x #Return the final calculated value
-
+    
 def STO(thrust):
     #The following calculates the needed values to find STO
-    Vstall = sqrt(56000 / (.5 * .002377 * 1000 *2.4))
+    Vstall = (56000 / (.5 * .002377 * 1000 *2.4)) ** .5
     Vto = Vstall * 1.2
     A = 32.2 * (thrust / 56000)
     B = (32.2 / 56000) * (.5 * .002377 * 1000 * .0279)

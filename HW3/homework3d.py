@@ -1,9 +1,7 @@
-from math import *
-
 def MagVectorDiff(vector1, vector2):
     elementSum = 0 #Initialize variable to hold the squared difference of the elements in the vectors
     for i in range(len(vector1)): elementSum += (vector1[i] - vector2[i]) ** 2 #Find the difference of each element in the vectors and square it, then add the value to element sum
-    return sqrt(elementSum) #Return the square root of elementSum, which is the magnitiude of the difference of the vectors
+    return elementSum ** .5 #Return the square root of elementSum, which is the magnitiude of the difference of the vectors
 
 def main():
     A = [2, 1, 5, 9]

@@ -21,6 +21,11 @@ def PlotLeastSquares(x, y, power, showpoints = True, npoints = 500):
     coefficients = LeastSquares(x,y,power) #Get the needed coefficients using the LeastSquares function
     valuesX, valuesY = np.linspace(min(x), max(x), npoints), np.linspace(min(x), max(x), npoints) #Create npoints evenly divided x points to calculate y for, and a placeholder array for the y values
     for i in range(len(valuesX)): valuesY[i] = Horner(valuesX[i], coefficients) #Use Horner's to solve for the y values respective to x
+    
+    '''
+    It's plotting time
+    '''
+    
     plt.title('Least Squares Curve Fitting of Degree {:d}'.format(power)) #Add a title and lable the axis for the plot
     plt.xlabel('x Axis')
     plt.ylabel('y Axis')
@@ -59,4 +64,5 @@ def main():
     plt.legend()
     plt.show()
 
-main()
+if __name__ == "__main__": #I've been hesitant to correctly call main this semester but figured it's time
+    main()

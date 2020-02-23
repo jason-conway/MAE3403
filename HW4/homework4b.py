@@ -16,14 +16,18 @@ def PlotCubicSpline(x, y, slope1 = 0, slope2 = 0 , showpoints = True, npoints = 
     xDiff, yDiff = np.diff(x), np.diff(y)  #Create array holding the difference between adjacent values in the x and y array
     divSpacing = yDiff / xDiff #Create array holding the ratio between the x and y array differences
     coefficients = CubicSpline(x,y) #Pass the x and y arrays to CubicSpline to calculate the coefficients of the spline
-    alpha = (3 * divSpacing - coefficients[1 :] - 2 * coefficients[:(len(x) - 1)]) / xDiff #Create the last two arrays of values needed to solve for the y values
-    beta = (coefficients[:(len(x) - 1)] + coefficients[1 :] - 2 * divSpacing) / (xDiff ** 2)
+    alpha = (3 * divSpacing - coefficients[1 :] - 2 * coefficients[: (len(x) - 1)]) / xDiff #Create the last two arrays of values needed to solve for the y values
+    beta = (coefficients[: (len(x) - 1)] + coefficients[1 :] - 2 * divSpacing) / (xDiff ** 2)
     valuesX, valuesY = np.linspace(min(x), max(x), npoints), [] #Create npoints evenly divided x points to calculate y for, and a placeholder array for the y values
     for i in valuesX: #Loop through all the values in the x array
         for j in range(len(x) - 1): #Loop through the values in the x array
             if ((i >= x[j]) & (i <= x[j + 1])):
                 tempY = y[j] + coefficients[j] * (i - x[j]) + alpha[j] * ((i - x[j]) ** 2) + beta[j] * ((i - x[j]) ** 3) #Solve for the current value of y with the coefficients
                 valuesY.append(tempY) #Add the calculated value of y in the valuesY array
+    '''
+    It's plotting time
+    '''
+
     plt.title('Cubic Spine') #Add a title and lable the axis for the plot
     plt.xlabel('x Axis')
     plt.ylabel('y Axis')
@@ -42,4 +46,5 @@ def main():
     print(coefficients)
     PlotCubicSpline(x, y, slope1, slope2) #Call PlotCubicSpline to calculate the needed values and display the plot
 
-main()
+if __name__ == "__main__":
+    main()

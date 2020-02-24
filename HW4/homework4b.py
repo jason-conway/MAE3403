@@ -2,35 +2,35 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-#Methodology pulled from https://en.wikipedia.org/wiki/Spline_interpolation
 def CubicSpline(x, y, slope1 = 0, slope2 = 0):
-    xDiff, yDiff = np.diff(x), np.diff(y)  #Create array holding the difference between adjacent values in the x and y array
-    divSpacing = yDiff / xDiff #Create array holding the ratio between the x and y array differences
-    neighboringDiagMatA = xDiff[1 : (len(x) - 1) - 1] ** -1 #Calculate the values to be occupied above and below the diagonal in matrix A. We are creating the diagonal linear equation system piece by piece
-    diagMatA = 2 * (1 / xDiff[: (len(x) - 1) - 1] + 1 / xDiff[1 :]) #Calculate the values to occupy the diagonal in matrix A
-    matA = np.diag(neighboringDiagMatA, -1) + np.diag(diagMatA, 0) + np.diag(neighboringDiagMatA, +1) #Create matrix A with the appropriate offsets and values we calculated
-    matB = 3 * (divSpacing[1 :] / xDiff[1 :] + divSpacing[: (len(x) - 1) - 1] / xDiff[: (len(x) - 1) - 1]) #Create matrix B containing "solutions" to the set of equations
-    return np.hstack([slope1, np.linalg.solve(matA, matB), slope2]) #Return the coefficients, which are the solutions to the set of equations bounded by the argument-provided slopes
-    
+    matA, matB, coefficients = np.zeros((len(x), len(x))), np.zeros((len(x))), np.zeros((len(x) - 1, 4)) #Create empty matrixes
+    matA[0][0], matA[len(x) - 1][len(x) - 1] = 1, 1 #Put 1s at the top left and bottom right of matA
+    stepSize = x[1] - x[0] #Assume a uniform step size throughout the provided array
+    matB[0], matB[len(x) - 1] = slope1, slope2 #Put slope 1 and slope 2 at the beginning and end of matB
+    for i in range(1, len(x) - 1):
+        matA[i][i], matA[i][i + 1], matA[i][i-1] = 4, 1, 1 #Create a diagonal of 4 and 1 in matA
+        matB[i] = (3 / stepSize) * (y[i + 1] - y[i - 1]) #Calculate needed values in matB for finding the k values
+    kValues = np.linalg.solve(matA, matB) #Solve for the k values
+    for i in range(len(x) - 1): #Loop through and use cubic spline equations to calculate the coefficients
+        coefficients[i][0] = y[i]
+        coefficients[i][1] = kValues[i]
+        coefficients[i][2] = (3 / stepSize ** 2) * (y[i + 1] - y[i]) - (1 / stepSize) * (kValues[i + 1] + 2 * kValues[i])
+        coefficients[i][3] = (2 / stepSize ** 3) * (y[i] - y[i + 1]) + (1 / stepSize ** 2) * (kValues[i + 1] + kValues[i])
+    return coefficients
+
 def PlotCubicSpline(x, y, slope1 = 0, slope2 = 0 , showpoints = True, npoints = 500):
-    xDiff, yDiff = np.diff(x), np.diff(y)  #Create array holding the difference between adjacent values in the x and y array
-    divSpacing = yDiff / xDiff #Create array holding the ratio between the x and y array differences
-    coefficients = CubicSpline(x,y) #Pass the x and y arrays to CubicSpline to calculate the coefficients of the spline
-    alpha = (3 * divSpacing - coefficients[1 :] - 2 * coefficients[: (len(x) - 1)]) / xDiff #Create the last two arrays of values needed to solve for the y values
-    beta = (coefficients[: (len(x) - 1)] + coefficients[1 :] - 2 * divSpacing) / (xDiff ** 2)
-    valuesX, valuesY = np.linspace(min(x), max(x), npoints), [] #Create npoints evenly divided x points to calculate y for, and a placeholder array for the y values
-    for i in valuesX: #Loop through all the values in the x array
-        for j in range(len(x) - 1): #Loop through the values in the x array
-            if ((i >= x[j]) & (i <= x[j + 1])): valuesY.append(y[j] + coefficients[j] * (i - x[j]) + alpha[j] * ((i - x[j]) ** 2) + beta[j] * ((i - x[j]) ** 3)) #Solve for the current value of y with the coefficients and add it to the valuesY array
-                
-    '''
-    It's plotting time
-    '''
+    coefficients = CubicSpline(x, y, slope1, slope2) #Pass the x and y arrays to CubicSpline to calculate the coefficients of the spline
+    for i in range(len(x) - 1): #Loop through the values in the main x array
+        valuesX = np.linspace(x[i], x[i+1], npoints)
+        valuesY = np.zeros(len(valuesX))#Create 500 points between the current points in the x array and a placeholder of the same size for storing the values of y
+        for j in range(len(valuesX)): #Loop through the values in this valuesX array
+            valuesY[j] = coefficients[i][0] + coefficients[i][1] * (valuesX[j] - x[i]) + coefficients[i][2] * (valuesX[j] - x[i]) ** 2 + coefficients[i][3] * (valuesX[j] - x[i]) ** 3 #Solve for the current value of y with the coefficients and add it to the valuesY array
+        plt.plot(valuesX, valuesY, label = "Spline " + str(i))
+
     plt.title('Cubic Spine') #Add a title and lable the axis for the plot
     plt.xlabel('x Axis')
     plt.ylabel('y Axis')
     if showpoints: plt.plot(x,y,'ro', label='Original Data') #Plot original data if indicated
-    plt.plot(valuesX, valuesY, 'b', linewidth = 2, label = 'Splines') #Add the x values and calculated y values
     plt.legend()
     plt.show()
 
@@ -39,8 +39,9 @@ def main():
     y = np.array([3.5, 1.5, -2, 6.9, 8.2 ,1.5]) 
     slope1 = 2
     slope2 = -4
+
     coefficients = CubicSpline(x,y,slope1, slope2) #Pass the x and y arrays, along with the boundary slopes to CubicSpline to calculate the coefficients of the spline
-    print('The coefficients of the spline are: ', end = '')
+    print('The coefficients of the spline are: ')
     print(coefficients)
     PlotCubicSpline(x, y, slope1, slope2) #Call PlotCubicSpline to calculate the needed values and display the plot
 

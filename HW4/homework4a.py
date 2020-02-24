@@ -12,8 +12,7 @@ def LeastSquares(x, y, power):
     for i in range(len(x)): #Loop through the values of the x array
         matB[i][0] = y[i] #Fill in matrix B with data from the y array
         for j in range(power + 1): matA[i][j] = x[i] ** j #Loop through "matrix" A and set the current element as the corresponding value in the x array to the power of j
-    aTransxA = np.matmul(np.transpose(matA), matA) #Multiply transposed A by A
-    aTransxB = np.matmul(np.transpose(matA), matB) #Multiply transposed A by B
+    aTransxA, aTransxB = np.matmul(np.transpose(matA), matA), np.matmul(np.transpose(matA), matB) #Multiply transposed A by A and multiply transposed A by B
     return np.linalg.solve(aTransxA, aTransxB) #Calculate the coefficients by solving the matrixes and return them back
 
 def PlotLeastSquares(x, y, power, showpoints = True, npoints = 500):

@@ -4,8 +4,7 @@ import numpy as np
 
 #Methodology and extra information pulled from https://en.wikipedia.org/wiki/Determinant#Laplace's_formula_and_the_adjugate_matrix
 def Cramer(A, b):
-    solution = np.zeros((len(b), 1))
-    aMod = np.zeros((len(A), len(A[0]), len(b))) #Create 3d matrix to hold the modified A matrixes
+    solution, aMod = np.zeros((len(b), 1)), np.zeros((len(A), len(A[0]), len(b)))  #Create a 1d matrix to store the solution and a 3d matrix to hold the modified A matrixes
     for i in range(len(A[0])): #Loop through the columns in matrix A
         aMod[i] = np.copy(A) #Put a hot and fresh copy of matrix A into the current element of aMod
         aMod[i][:,i] = b #Replace the current column of A with B

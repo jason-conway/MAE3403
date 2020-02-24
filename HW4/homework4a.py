@@ -11,11 +11,10 @@ def LeastSquares(x, y, power):
     matA, matB = np.zeros((len(x), power + 1)), np.zeros((len(x), 1)) #Create matrixes of the appropriate size
     for i in range(len(x)): #Loop through the values of the x array
         matB[i][0] = y[i] #Fill in matrix B with data from the y array
-        for j in range(power + 1): matA[i][j] = (x[i]) ** j #Loop through "matrix" A and set the current element as the corresponding value in the x array to the power of j
-    transMatA = np.transpose(matA) #Transpose the matrix to get it in the correct orientation
-    aTransDotA = np.dot(transMatA, matA) #Calculate the dot product of the transposed and non-transposed matrix A
-    aTransDotB = np.dot(transMatA, matB) #Calculate the dot product of the transposed matrix A and matrix B
-    return np.linalg.solve(aTransDotA, aTransDotB) #Calculate the coefficients by solving the matrixes and return them back
+        for j in range(power + 1): matA[i][j] = x[i] ** j #Loop through "matrix" A and set the current element as the corresponding value in the x array to the power of j
+    aTransxA = np.matmul(np.transpose(matA), matA) #Multiply transposed A by A
+    aTransxB = np.matmul(np.transpose(matA), matB) #Multiply transposed A by B
+    return np.linalg.solve(aTransxA, aTransxB) #Calculate the coefficients by solving the matrixes and return them back
 
 def PlotLeastSquares(x, y, power, showpoints = True, npoints = 500):
     coefficients = LeastSquares(x,y,power) #Get the needed coefficients using the LeastSquares function

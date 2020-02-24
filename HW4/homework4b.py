@@ -21,13 +21,11 @@ def PlotCubicSpline(x, y, slope1 = 0, slope2 = 0 , showpoints = True, npoints = 
     valuesX, valuesY = np.linspace(min(x), max(x), npoints), [] #Create npoints evenly divided x points to calculate y for, and a placeholder array for the y values
     for i in valuesX: #Loop through all the values in the x array
         for j in range(len(x) - 1): #Loop through the values in the x array
-            if ((i >= x[j]) & (i <= x[j + 1])):
-                tempY = y[j] + coefficients[j] * (i - x[j]) + alpha[j] * ((i - x[j]) ** 2) + beta[j] * ((i - x[j]) ** 3) #Solve for the current value of y with the coefficients
-                valuesY.append(tempY) #Add the calculated value of y in the valuesY array
+            if ((i >= x[j]) & (i <= x[j + 1])): valuesY.append(y[j] + coefficients[j] * (i - x[j]) + alpha[j] * ((i - x[j]) ** 2) + beta[j] * ((i - x[j]) ** 3)) #Solve for the current value of y with the coefficients and add it to the valuesY array
+                
     '''
     It's plotting time
     '''
-
     plt.title('Cubic Spine') #Add a title and lable the axis for the plot
     plt.xlabel('x Axis')
     plt.ylabel('y Axis')

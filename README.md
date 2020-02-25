@@ -2,7 +2,8 @@
  Assignments for "Computer Methods in Analysis and Design"
  
 # Why
-All the cool software I write is proprietary and hidden but I want to appear active on Github.
+Redundancy is key, and an off-site copy of my work makes me feel safe in the case of a hardware failure. 
+Also all the cool software I write is proprietary and hidden but I want to appear active on Github. 
 
 # Caution
 This repo is purely intended for version control. 

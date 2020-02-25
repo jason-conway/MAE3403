@@ -25,7 +25,7 @@ def PlotCubicSpline(x, y, slope1 = 0, slope2 = 0 , showpoints = True, npoints = 
         valuesY = np.zeros(len(valuesX))#Create 500 points between the current points in the x array and a placeholder of the same size for storing the values of y
         for j in range(len(valuesX)): #Loop through the values in this valuesX array
             valuesY[j] = coefficients[i][0] + coefficients[i][1] * (valuesX[j] - x[i]) + coefficients[i][2] * (valuesX[j] - x[i]) ** 2 + coefficients[i][3] * (valuesX[j] - x[i]) ** 3 #Solve for the current value of y with the coefficients and add it to the valuesY array
-        plt.plot(valuesX, valuesY, label = "Spline " + str(i))
+        plt.plot(valuesX, valuesY, label = "Spline " + str(i + 1))
 
     plt.title('Cubic Spine') #Add a title and lable the axis for the plot
     plt.xlabel('x Axis')

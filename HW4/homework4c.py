@@ -14,7 +14,8 @@ def Cramer(A, b):
 def Determinant(A):
     if len(A[0]) == 2: return A[0][0] * A[1][1] - A[0][1] * A[1][0] #If A is a 2x2 matrix, take the easy determinant
     det = 0 #Create placeholder variable to hold the determinant as we calculate it
-    for k in range(len(A[0])): det += (-1)**(k + 1) * A[1][k] * Determinant(Submatrix(A, 1, k)) #Use Laplace's formula to recursively find the determinant of A
+    for k in range(len(A[0])): 
+        det += (-1)**(k + 1) * A[1][k] * Determinant(Submatrix(A, 1, k)) #Use Laplace's formula to recursively find the determinant of A
     return det #Return the determinant 
     
 def Submatrix(A, j, k):

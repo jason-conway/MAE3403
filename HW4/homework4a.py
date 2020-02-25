@@ -4,21 +4,24 @@ import numpy as np
 
 def Horner(x, coeffs): #Bring in Horner's Rule from homework 1
     poly = coeffs[len(coeffs) - 1] #Initially define poly as the last element in the array
-    for i in range(len(coeffs) - 2, -1, -1): poly = poly * x + coeffs[i]#Loop backwards from the 2nd to last array element to the first and the value of the polynomial using Horner's Rule
+    for i in range(len(coeffs) - 2, -1, -1): 
+        poly = poly * x + coeffs[i] #Loop backwards from the 2nd to last array element to the first and the value of the polynomial using Horner's Rule
     return poly
 
 def LeastSquares(x, y, power):
     matA, matB = np.zeros((len(x), power + 1)), np.zeros((len(x), 1)) #Create matrixes of the appropriate size
     for i in range(len(x)): #Loop through the values of the x array
         matB[i][0] = y[i] #Fill in matrix B with data from the y array
-        for j in range(power + 1): matA[i][j] = x[i] ** j #Loop through "matrix" A and set the current element as the corresponding value in the x array to the power of j
+        for j in range(power + 1): 
+            matA[i][j] = x[i] ** j #Loop through "matrix" A and set the current element as the corresponding value in the x array to the power of j
     aTransxA, aTransxB = np.matmul(np.transpose(matA), matA), np.matmul(np.transpose(matA), matB) #Multiply transposed A by A and multiply transposed A by B
     return np.linalg.solve(aTransxA, aTransxB) #Calculate the coefficients by solving the matrixes and return them back
 
 def PlotLeastSquares(x, y, power, showpoints = True, npoints = 500):
     coefficients = LeastSquares(x,y,power) #Get the needed coefficients using the LeastSquares function
     valuesX, valuesY = np.linspace(min(x), max(x), npoints), np.linspace(min(x), max(x), npoints) #Create npoints evenly divided x points to calculate y for, and a placeholder array for the y values
-    for i in range(len(valuesX)): valuesY[i] = Horner(valuesX[i], coefficients) #Use Horner's to solve for the y values respective to x
+    for i in range(len(valuesX)): 
+        valuesY[i] = Horner(valuesX[i], coefficients) #Use Horner's to solve for the y values respective to x
     
     '''
     It's plotting time

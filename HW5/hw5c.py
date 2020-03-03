@@ -56,7 +56,7 @@ def main():
     plt.xlabel('Time [sec]')
     plt.ylabel('Displacement [provided units]')
     plt.plot(time, ans_c25[:,0], 'b', label = 'c = 25') #Add x(t) with c = 25 vs time to the plot
-    plt.plot(time, ans_c2[:,0], 'r', label = 'c = 2.5') #Add x(t) with c = 2 vs time to the plot
+    plt.plot(time, ans_c2[:,0], 'r', label = 'c = 2') #Add x(t) with c = 2 vs time to the plot
     plt.legend()
     plt.show()
 

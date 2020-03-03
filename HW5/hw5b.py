@@ -7,7 +7,7 @@ Uses the equations provided in "Rolling Wheel Dynamics for Fsolve" to find F, N,
 '''
 def solveRollingWheel(currentGuess, args):
     F, N, a_G, alpha, theta = currentGuess #Unpack the current guess array 
-    W, r, k_g, gc, mu_s = args #Unpack args to use the needed values
+    W, r, k_g, gc, mu_s = args #Unpack args to use the necessary values
     return  [(W / gc) * a_G + F - W * sin(theta), #F
               N - W * cos(theta), #N
               -1 * F * r + (W / gc) * (k_g ** 2) * alpha, #a_G

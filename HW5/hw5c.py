@@ -9,7 +9,7 @@ Set up differential equations used to model the behavior of the solenoid
 def solenoidBehavior(X, time, m, k, c, K_f, K_b, L_a, R, v):
     x, xdot, i = X #Unpack the state array values into their own variables
     xddot = ((-c * xdot) - (k * x) + (K_f * i)) / m #Solve the provided equation for the highest oder term
-    idot = (v - (R * i) - (K_b * xdot)) / L_a #Solve the provided equation for the highest oder term
+    idot = (v - (R * i) - (K_b * xdot)) / L_a #Solve the provided equation for the highest order term
     return (xdot, xddot, idot)
 
 def main():

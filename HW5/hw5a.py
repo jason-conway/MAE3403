@@ -41,14 +41,13 @@ def flowError(Q, waterDensity, waterViscosity, pipeRoughness, pipeDiameter, pipe
     Create an array containing the sums of flow into and out of different nodes, as well as the sums of pressure drops in the sub-loops.
     Elements will all equal zero when the individual flowrates are calculated.
     '''
-    nodes = [Q_a - Q[0] - Q[1], #Node A
+    return [Q_a - Q[0] - Q[1], #Node A
             Q[0] - Q[2] - Q[3], #Node B
             Q[2] - Q_c - Q[4], #Node C
             Q[3] + Q[4] - Q[5], #Node D
             Q[5] + Q[1] - Q[6], #Node E
             deltaP[0] + deltaP[3] + deltaP[5] - deltaP[1], #Pressure loop ABDE
             deltaP[3] - deltaP[4] - deltaP[2]] #Pressure loop BCD
-    return nodes
 
 def main():
     waterDensity = 1.94 #Density of water in slug / foot cubed

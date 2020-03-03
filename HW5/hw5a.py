@@ -24,7 +24,7 @@ def velocity(flowrate, diameter):
 Calculate the pressure drop across the length of pipe
 '''
 def pressureDrop(friction, length, velocity, density, diameter):
-    return (friction * length * abs(velocity) * velocity * density) / (2 * diameter) 
+    return -(friction * length * abs(velocity) * velocity * density) / (2 * diameter) 
 
 '''
 Calculate error between the current guess and the final answer

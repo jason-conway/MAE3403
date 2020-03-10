@@ -18,11 +18,9 @@ def p1errors(pvals, pipelist, rho, mu, supplyp): # using a pressure source
     Qde = de.flow(0 - pressureD, rho, mu)
     Qbd = bd.flow(pressureD - pressureB, rho, mu)
 
-    flowErrors = [Qab - Qbc - Qbd, #Sum of the flows at node B
-                 Qbc - Qcd, #Sum of the flows at node C
-                 Qcd + Qbd - Qde] #Sum of the flows at Node D
-
-    return flowErrors
+    return [Qab - Qbc - Qbd, #Sum of the flows at node B
+            Qbc - Qcd, #Sum of the flows at node C
+            Qcd + Qbd - Qde] #Sum of the flows at Node D
 
 # Solve the pipe network when the supply is a flow source
 def p2errors(pvals, pipelist,rho,mu,supplyQ): # using a pressure source
@@ -38,12 +36,10 @@ def p2errors(pvals, pipelist,rho,mu,supplyQ): # using a pressure source
     Qde = de.flow(0 - pressureD, rho, mu)
     Qbd = bd.flow(pressureD - pressureB, rho, mu)
 
-    flowErrors = [supplyQ - Qab, #Sum of the flows at node A
-                  Qab - Qbc - Qbd, #Sum of the flows at node B
-                  Qbc - Qcd, #Sum of the flows at node C
-                  Qcd + Qbd - Qde] #Sum of the flows at Node D
-
-    return flowErrors
+    return [supplyQ - Qab, #Sum of the flows at node A
+            Qab - Qbc - Qbd, #Sum of the flows at node B
+            Qbc - Qcd, #Sum of the flows at node C
+            Qcd + Qbd - Qde] #Sum of the flows at Node D
 
 # Solve the pipe network when the supply is a pump
 def p3errors(pvals, pipelist, rho, mu, pump):  # using a pump
@@ -59,12 +55,10 @@ def p3errors(pvals, pipelist, rho, mu, pump):  # using a pump
     Qde = de.flow(0 - pressureD, rho, mu)
     Qbd = bd.flow(pressureD - pressureB, rho, mu)
 
-    flowErrors = [pump.flow(pressureA) - Qab, #Sum of the flows at node A
-                  Qab - Qbc - Qbd, #Sum of the flows at node B
-                  Qbc - Qcd, #Sum of the flows at node C
-                  Qcd + Qbd - Qde] #Sum of the flows at Node D
-
-    return flowErrors
+    return [pump.flow(pressureA) - Qab, #Sum of the flows at node A
+            Qab - Qbc - Qbd, #Sum of the flows at node B
+            Qbc - Qcd, #Sum of the flows at node C
+            Qcd + Qbd - Qde] #Sum of the flows at Node D
 
 def main():
     rho = 1.94

@@ -30,14 +30,11 @@ class Pipe:
 
     def display(self):
         if self.name != None: print('|Pipe Section: {} | '.format(self.name), end = '') #Print out the pipe section name if its not None
-        if self.dp != None: print('Pressure Drop: {:.2f} kPa | '.format(self.dp), end = '') #Print out the pipe pressure loss if its not None
+        if self.dp != None: print('Pressure Drop: {:.2f} bar | '.format(self.dp), end = '') #Print out the pipe pressure loss if its not None
         if self.Q != None: print('Flow Rate: {:.2f} m^3/second|'.format(self.Q)) #Print out the pipe flow rate if its not None
 
-def friction(eps, D, Re):
-    term1 = 1 / 2.8257 * (eps/D) ** 1.1098 + 5.8506 / (Re ** 0.8981)
-    term2 = 5.0452 / Re * np.log10(term1)
-    term3 = -2.0 * np.log10(eps / 3.7065 / D - term2)
-    return term3 ** -2
+def friction(roughness, diameter, Re):
+    return (-2 * np.log10((roughness / (3.7065 * diameter)) - ((5.0452 / Re) * np.log10((1 / 2.8257) * (roughness / diameter) ** 1.1098 + (5.8506 / (Re ** .8981)))))) ** -2
 
 def main():
     rho = 1.94; mu = 0.0000186; eps = 0.00082

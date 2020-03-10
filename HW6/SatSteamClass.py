@@ -19,7 +19,7 @@ class SatSteam:
         self.updateProperties()
 
     def updateProperties(self):
-        rawSatTemp, rawSatPressure, rawSatFluidEnthalpy, rawSatVaporEnthalpy, rawSatFluidEnthropy, rawSatVaporEnthropy, rawSatFluidSpecificVolume, rawSatVaporSpecificVolume = np.loadtxt("sat_water_table.txt", skiprows = 1, unpack = True) #Load the text file and unpack the contents into their respective variables 
+        rawSatTemp, rawSatPressure, rawSatFluidEnthalpy, rawSatVaporEnthalpy, rawSatFluidEnthropy, rawSatVaporEnthropy, rawSatFluidSpecificVolume, rawSatVaporSpecificVolume = np.loadtxt('sat_water_table.txt', skiprows = 1, unpack = True) #Load the text file and unpack the contents into their respective variables 
 
         satFluidEnthropy = float(griddata(rawSatPressure, rawSatFluidEnthropy, self.psat)) #Interpolate the saturated fluid entropy
         satVaporEnthropy = float(griddata(rawSatPressure, rawSatVaporEnthropy, self.psat)) #Interpolate the saturated vapor entropy
@@ -34,14 +34,12 @@ class SatSteam:
         self.h = satFluidEnthalpy + (satVaporEnthalpy - satFluidEnthalpy) * self.X #Find the enthalpy using the provided quality
         self.s = satFluidEnthropy + (satVaporEnthropy - satFluidEnthropy) * self.X #Find the entropy using the provided quality
 
-        return None
-
     def display(self):
         if self.name != None: print('Name: {}'.format(self.name)) #Print out the name as long as it isn't None
-        if self.psat != None: print('Saturation Pressure is {:.2f} kPa'.format(self.psat)) #Print out the saturation pressure as long as it isn't None
+        if self.psat != None: print('Saturation Pressure is {:.2f} bar'.format(self.psat)) #Print out the saturation pressure as long as it isn't None
         if self.tsat != None: print('Saturation Temperature is {:.2f} C'.format(self.tsat)) #Print out the name as long as it isn't None
-        if self.h != None: print('Entropy is {:.2f} kJ/kg'.format(self.h)) #Print out the entropy as long as it isn't None
-        if self.s != None: print('Enthalpy is {:.2f} kJ/kg*K'.format(self.s)) #Print out the enthalpy as long as it isn't None
+        if self.h != None: print('Enthalpy is {:.2f} kJ/kg'.format(self.h)) #Print out the entropy as long as it isn't None
+        if self.s != None: print('Entropy is {:.2f} kJ/kg*K'.format(self.s)) #Print out the enthalpy as long as it isn't None
         if self.v != None: print('Specific Volume is {:.5f} m^3/kg'.format(self.v)) #Print out the specific volumne as long as it isn't None
         if self.X != None: print('Quality is {:.4f}\n'.format(self.X)) #Print out the quality as long as it isn't None
 

@@ -15,6 +15,12 @@ class Pump:
 
     #Computes and returns the pump flow for the given pump pressure and saves the pressure drop and flow and self.dp and self.Q. flow(dp) is the inverse of deltaP(flow)
     def flow(self, dp):
+        def findFlow(Q): #Create function to run fsolve on in order to solve for the flow rate
+            return (self.deltaP(Q) - dp) #Function should equal zero when the output of deltaP equals the dp argument
+        flowRate = fsolve(findFlow, 1000) #Run fsolve to find the flow rate using an intitial guess of 1000
+        self.Q = float(flowRate) #We want to make this a single float since its returned by fsolve as an array
+        self.dp = float(self.dp) #We want to make this a single float since its returned by fsolve as an array
+        return self.Q
 
 def main():
     import numpy as np

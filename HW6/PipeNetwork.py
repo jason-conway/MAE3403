@@ -1,14 +1,17 @@
 from scipy.optimize import fsolve
 import numpy as np
 
-from HW6.PipeClass import Pipe
-from HW6.PumpClass import Pump
+from PipeClass import Pipe
+from PumpClass import Pump
 
 # Solve the pipe network when the supply is a pressure source
 def p1errors(pvals, pipelist, rho, mu, supplyp): # using a pressure source
     pressureB, pressureC, pressureD = pvals #Expand pressures
     ab, bc, cd, bd, de = pipelist #Expand pipes
 
+    '''
+    Use the image of the pipe network to derive equations for flow rate at all the nodes
+    '''
     Qab = ab.flow(pressureB - supplyp, rho, mu)
     Qbc = bc.flow(pressureC - pressureB, rho, mu)
     Qcd = cd.flow(pressureD - pressureC, rho, mu)
@@ -26,13 +29,16 @@ def p2errors(pvals, pipelist,rho,mu,supplyQ): # using a pressure source
     pressureA, pressureB, pressureC, pressureD = pvals #Expand pressures
     ab, bc, cd, bd, de = pipelist #Expand pipes
 
+    '''
+    Use the image of the pipe network to derive equations for flow rate at all the nodes
+    '''
     Qab = ab.flow(pressureB - pressureA, rho, mu)
     Qbc = bc.flow(pressureC - pressureB, rho, mu)
     Qcd = cd.flow(pressureD - pressureC, rho, mu)
     Qde = de.flow(0 - pressureD, rho, mu)
     Qbd = bd.flow(pressureD - pressureB, rho, mu)
 
-    flowErrors = [supplyQ - Qab,
+    flowErrors = [supplyQ - Qab, #Sum of the flows at node A
                   Qab - Qbc - Qbd, #Sum of the flows at node B
                   Qbc - Qcd, #Sum of the flows at node C
                   Qcd + Qbd - Qde] #Sum of the flows at Node D
@@ -44,17 +50,20 @@ def p3errors(pvals, pipelist, rho, mu, pump):  # using a pump
     pressureA, pressureB, pressureC, pressureD = pvals #Expand pressures
     ab, bc, cd, bd, de = pipelist #Expand pipes
 
+    '''
+    Use the image of the pipe network to derive equations for flow rate at all the nodes
+    '''
     Qab = ab.flow(pressureB - pressureA, rho, mu)
     Qbc = bc.flow(pressureC - pressureB, rho, mu)
     Qcd = cd.flow(pressureD - pressureC, rho, mu)
     Qde = de.flow(0 - pressureD, rho, mu)
     Qbd = bd.flow(pressureD - pressureB, rho, mu)
 
-    flowErrors = [pump.flow(pressureA) - Qab,
+    flowErrors = [pump.flow(pressureA) - Qab, #Sum of the flows at node A
                   Qab - Qbc - Qbd, #Sum of the flows at node B
                   Qbc - Qcd, #Sum of the flows at node C
                   Qcd + Qbd - Qde] #Sum of the flows at Node D
-    pump.dp = pump.dp[0]
+
     return flowErrors
 
 def main():
@@ -80,7 +89,7 @@ def main():
 
     print('\nPressures at b, c and d are {:.1f}, {:.1f} and {:.1f}'.format(pb, pc, pd))
 
-    for pipe in pipelist: pipe.print()
+    for pipe in pipelist: pipe.display()
 
     print('Fsolve Errors: ', p1errors(Pvals, pipelist, rho, mu, supplyp))
 
@@ -91,7 +100,7 @@ def main():
     pa, pb, pc, pd = Pvals
 
     print('\nPressures at a, b, c and d are {:.1f}, {:.1f}, {:.1f} and {:.1f}'.format(pa, pb, pc, pd))
-    for pipe in pipelist: pipe.print()
+    for pipe in pipelist: pipe.display()
     print('Fsolve Errors: ', p2errors(Pvals, pipelist, rho, mu, supplyQ))
 
     #Pump Source
@@ -102,7 +111,7 @@ def main():
     pa, pb, pc, pd = Pvals
 
     print('\nPressures at a, b, c and d are {:.1f}, {:.1f}, {:.1f} and {:.1f}'.format(pa, pb, pc, pd))
-    for pipe in pipelist: pipe.print()
+    for pipe in pipelist: pipe.display()
     print('Pump flow and pressure are: {:.3f} and {:.3f}'.format(pump.Q, pump.dp))
     print('Fsolve Errors: ', p3errors(Pvals, pipelist, rho, mu, pump))
 

@@ -19,25 +19,31 @@ class SatSteam:
         self.updateProperties()
 
     def updateProperties(self):
-        tscol, pscol, hfcol, hgcol, sfcol, sgcol, sgcol, vfcol, vgcol = np.loadtxt('sat_water_table.txt', skiprows = 1, unpack = True)
+        rawSatTemp, rawSatPressure, rawSatFluidEnthalpy, rawSatVaporEnthalpy, rawSatFluidEnthropy, rawSatVaporEnthropy, rawSatFluidSpecificVolume, rawSatVaporSpecificVolume = np.loadtxt("sat_water_table.txt", skiprows = 1, unpack = True) #Load the text file and unpack the contents into their respective variables 
 
-        pval = self.psat
+        satFluidEnthropy = float(griddata(rawSatPressure, rawSatFluidEnthropy, self.psat)) #Interpolate the saturated fluid entropy
+        satVaporEnthropy = float(griddata(rawSatPressure, rawSatVaporEnthropy, self.psat)) #Interpolate the saturated vapor entropy
+        satFluidSpecificVolume = float(griddata(rawSatPressure, rawSatFluidSpecificVolume, self.psat)) #Interpolate the saturated fluid specific volume
+        satVaporSpecificVolume = float(griddata(rawSatPressure, rawSatVaporSpecificVolume, self.psat)) #Interpolate the saturated vapor specific volume
+        satFluidEnthalpy = float(griddata(rawSatPressure, rawSatFluidEnthalpy, self.psat)) #Interpolate the saturated fluid enthalpy
+        satVaporEnthalpy = float(griddata(rawSatPressure, rawSatVaporEnthalpy, self.psat))  #Interpolate the saturated vapor enthalpy
+        satTemp = float(griddata(rawSatPressure, rawSatTemp, self.psat))  #Interpolate the saturation temperature
 
-        sfval = float(griddata(pscol, sfcol, pval))
-        sgval = float(griddata(pscol, sgcol, pval))
-        vfval = float(griddata(pscol, vfcol, pval))
-        vgval = float(griddata(pscol, vgcol, pval))
-        hfval = float(griddata(pscol, hfcol, pval))
-        hgval = float(griddata(pscol, hgcol, pval))
-        tsat = float(griddata(pscol, tscol, pval))
+        self.tsat = satTemp #Update saturation temp internally
+        self.v = satFluidSpecificVolume + (satVaporSpecificVolume - satFluidSpecificVolume) * self.X #Find the specific volume using the provided quality
+        self.h = satFluidEnthalpy + (satVaporEnthalpy - satFluidEnthalpy) * self.X #Find the enthalpy using the provided quality
+        self.s = satFluidEnthropy + (satVaporEnthropy - satFluidEnthropy) * self.X #Find the entropy using the provided quality
 
-        self.tsat = tsat
-        self.v = vfval + (vgval - vfval) * self.X
-        self.h = hfval + (hgval - hfval) * self.X
-        self.s = sfval + (sgval - sfval) * self.X
-        
+        return None
 
     def display(self):
+        if self.name != None: print('Name: {}'.format(self.name)) #Print out the name as long as it isn't None
+        if self.psat != None: print('Saturation Pressure is {:.2f} kPa'.format(self.psat)) #Print out the saturation pressure as long as it isn't None
+        if self.tsat != None: print('Saturation Temperature is {:.2f} C'.format(self.tsat)) #Print out the name as long as it isn't None
+        if self.h != None: print('Entropy is {:.2f} kJ/kg'.format(self.h)) #Print out the entropy as long as it isn't None
+        if self.s != None: print('Enthalpy is {:.2f} kJ/kg*K'.format(self.s)) #Print out the enthalpy as long as it isn't None
+        if self.v != None: print('Specific Volume is {:.5f} m^3/kg'.format(self.v)) #Print out the specific volumne as long as it isn't None
+        if self.X != None: print('Quality is {:.4f}\n'.format(self.X)) #Print out the quality as long as it isn't None
 
 def main():
     state1 = SatSteam(90, quality = 1.00, name = 'Turbine Inlet')

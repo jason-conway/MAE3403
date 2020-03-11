@@ -1,37 +1,5 @@
 # NumPy Cheat Sheet
 
-## Index
-1. [Basics](#basics)
-    - [Placeholders](#place)
-    - [Examples](#ex)
-2. [Arrays](#arrays)
-    - [Properties](#props)
-    - [Copying/Sorting](#gops)
-      * [Examples](#array-example)
-    - [Array Manipulation](#man)
-      * [Adding/Removing Elements](#addrem)
-        + [Examples](#array-elements-examples)
-      * [Combining Arrays](#comb)
-        + [Examples](#array-combine-examples)
-      * [Splitting Arrays](#split)
-        + [Examples](#array-split-examples)
-      * [Shaping](#shape)
-      * [Misc](#misc)
-3. [Mathematics](#maths)
-    - [Arithmetic Operations](#ops)
-      * [Examples](#operations-examples)
-    - [Comparison](#comparison)
-      * [Examples](#comparison-example)
-    - [Basic Statistics](#stats)
-      * [Examples](#stats-examples)
-    - [More](#more)
-4. [Slicing and Subsetting](#ss)
-    - [Examples](#exp)
-5. [Tricks](#tricks)
-6. [Credits](#creds)
-
-</br>
-
 ## Basics <a name="basics"></a>
 
 One of the most commonly used functions of NumPy are *NumPy arrays*: The essential difference between *lists* and *NumPy arrays* is functionality and speed. *lists* give you basic operation, but *NumPy* adds FFTs, convolutions, fast searching, basic statistics, linear algebra, histograms, etc.</br>

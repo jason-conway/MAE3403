@@ -1,0 +1,61 @@
+
+# Examle TRUSS - for MAE 3403 Spring 2018 - Homework 9
+# https://www.mathalino.com/reviewer/engineering-mechanics/problem-407-warren-truss-method-joints
+
+# Lines starting with a # character are comments to be ignored
+# You may have comment lines anywhere in the file
+
+# blank lines are also allowed and will be ignored
+
+# Other lines in the file are identified by specific KEYWORDS, followed by data
+# KEYWORDS may include Capital letters, but capitalization must not be required
+# each line stands alone, and there is no required ORDER to the file
+
+Title, 'Two Link Truss'
+Distance_unit,  inch
+Force_unit, lbf
+
+#         Sut(ksi) Sy(ksi) E(Mpsi) 
+Material,   105,    40,      20
+
+Fatigue_factor, 2.5
+Static_factor,  1.0
+Buckling_factor, 2.0
+
+Min_diameter,     0.01
+
+# Nodes- locations for link-joints and applied loads
+# The node name is a string
+#      name   x     y
+node,  1,  0,     0
+node,  2,  200   ,   300
+node,  3, 600,   300
+node,  4, 100,   600
+
+# Links - structural members connecting two nodes
+       name    Node-1   Node-2    
+link,  1,     1,    2
+link,  2,     2,    3
+link,  3,     1,    4
+link,  4,     4,    2
+link,  5,     4,    3
+
+
+# Supports:  there must be sufficient suports
+# to be statically determinant
+#           name          Node    Direction
+support,    1,      1 ,       X
+support,    2,      1,        Y
+support,    3,     4 ,      X
+
+# applied forces
+#           name    Node       Fx        Fy
+force,     end ,   3,      0,      -1000
+force,     mid x ,   2,      1000,      0
+force,     mid y ,   2,      0,      -2000
+
+# loadsets - groups of loads applied at the same time
+#         name     list of loads and load-factor pairs 
+loadset,  end-only,     (end, 50)
+loadset,  mid-only,     (mid x, 100),  (mid y, 100)
+loadset,  all,       (end, 100), (mid x, 100), (mid y, 100)

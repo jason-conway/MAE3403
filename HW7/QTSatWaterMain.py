@@ -23,7 +23,6 @@ class main_window(QDialog):
         self.ui.pushButton_calculate.clicked.connect(self.calculateValues) #Execute the calculateValues method when the calculate button is clicked
         self.ui.pushButton_Exit.clicked.connect(self.exitApplication) #Execute the exitApplication method when the exit button is clicked
 
-    
     def calculateValues(self):
         pressure = float(self.ui.lineEdit_pressure.text()) #Grab the user-entered parameters from the GUI and save as a float
         quality = float(self.ui.lineEdit_quality.text())
